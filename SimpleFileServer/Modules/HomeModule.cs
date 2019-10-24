@@ -7,16 +7,10 @@ namespace SimpleFileServer.Modules
     {
         public HomeModule()
         {
-            //路由规则
-            //             Get["/blog/{name}"] = r =>
-            //             {
-            //                 return "blog name " + r.name;
-            //             };
-            // 
             Get["/"] = r =>
             {
                 var os = Environment.OSVersion;
-                return "Hello Nancy<br/> System:" + os.VersionString;
+                return "SimpleFileServer implemented by Nancy<br/> System:" + os.VersionString;
             };
             // 
             //             Get["/mvc/{controller}/{action}/{id}"] = r =>
