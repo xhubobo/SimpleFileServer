@@ -1,5 +1,6 @@
 ﻿using System;
 using Nancy.Hosting.Self;
+using SimpleFileServer.Tools;
 
 namespace SimpleFileServer
 {
@@ -28,6 +29,7 @@ namespace SimpleFileServer
             catch (Exception exception)
             {
                 ret = false;
+                LogHelper.AddLog(exception);
                 Console.WriteLine(exception);
             }
 
