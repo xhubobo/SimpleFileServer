@@ -9,11 +9,14 @@ namespace SimpleFileServer.Modules
     public class FileListModule : NancyModule
     {
         public FileListModule()
-        { 
+        {
             Get["/FileList"] = OnGetDrivers;
             Get["/FileList/Fixed"] = OnGetFixedDrivers;
             Get["/FileList/Removable"] = OnGetRemovableDrivers;
             Get["/FileList/GetInfo/{folderPath}"] = OnGetFileList;
+            //Get["/FileList/Upload/{filePath}"] = OnGetFileList;
+            //Get["/FileList/Upload2/{filePath}"] = OnGetFileList;
+            //Get["/FileList/Download/{filePath}"] = OnGetFileList;
         }
 
         private string OnGetDrivers(dynamic o)
