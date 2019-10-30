@@ -25,11 +25,11 @@ namespace SimpleFileServer.Modules
             {
                 fileList.Add(new FileInfo()
                 {
-                    FileName = Encoding.UTF8.GetString(Encoding.Default.GetBytes(file.Name)),
-                    FilePath = Encoding.UTF8.GetString(Encoding.Default.GetBytes(file.FullName)).Replace("/", "\\")
+                    FileName = file.Name,
+                    FilePath = file.FullName
                 });
             }
-            return View["Show", fileList].WithContentType("text/html; charset=UTF-8");
+            return View["Show", fileList];
         }
 
         private Response OnUploadFile(dynamic o)
