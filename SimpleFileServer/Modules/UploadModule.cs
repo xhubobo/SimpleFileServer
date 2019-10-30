@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Nancy;
 using Nancy.Responses.Negotiation;
 using SimpleFileServer.Tools;
@@ -12,7 +11,8 @@ namespace SimpleFileServer.Modules
     {
         public UploadModule()
         {
-            Post["/FileList/Upload/{filePath}"] = OnUploadFile;
+            Post["/FileList/Upload"] = OnUploadFile;
+            Get["/FileList/Upload"] = OnUploadView;
             Get["/FileList/Download/{fileName}"] = OnDownloadFile;
             Get["/FileList/Show"] = OnShow;
         }
@@ -32,7 +32,12 @@ namespace SimpleFileServer.Modules
             return View["Show", fileList];
         }
 
-        private Response OnUploadFile(dynamic o)
+        private Negotiator OnUploadView(dynamic o)
+        {
+            return View["FileUpload", new FileInfo()];
+        }
+
+        private Negotiator OnUploadFile(dynamic o)
         {
             if (!Directory.Exists(GlobalConfig.Instance.UploadDirectory))
             {
@@ -43,21 +48,30 @@ namespace SimpleFileServer.Modules
                 catch (Exception e)
                 {
                     LogHelper.AddLog(e);
-                    return Response.AsText($"Internal error: {e.Message}");
+                    //return Response.AsText($"Internal error: {e.Message}");
+                    return View["FileUpload", new FileInfo()];
                 }
             }
+
+            var fileInfo = new FileInfo();
 
             try
             {
                 foreach (var file in Request.Files)
                 {
-                    var fileName = Path.Combine(GlobalConfig.Instance.UploadDirectory, file.Name);
-                    if (File.Exists(fileName))
+                    var filePath = Path.Combine(GlobalConfig.Instance.UploadDirectory, file.Name);
+                    if (File.Exists(filePath))
                     {
-                        File.Delete(fileName);
+                        File.Delete(filePath);
                     }
 
-                    using (var stream = new FileStream(fileName, FileMode.Create))
+                    if (string.IsNullOrEmpty(fileInfo.FileName))
+                    {
+                        fileInfo.FileName = file.Name;
+                        fileInfo.FilePath = filePath;
+                    }
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         file.Value.CopyTo(stream);
                     }
@@ -68,7 +82,11 @@ namespace SimpleFileServer.Modules
                 LogHelper.AddLog(e);
             }
 
-            return Response.AsRedirect("/FileList/GetInfo/{GlobalConfig.Instance.UploadDirectory}");
+            
+
+            return View["FileUpload", fileInfo];
+
+            //return Response.AsRedirect("/FileList/GetInfo/{GlobalConfig.Instance.UploadDirectory}");
         }
 
         private Response OnDownloadFile(dynamic o)

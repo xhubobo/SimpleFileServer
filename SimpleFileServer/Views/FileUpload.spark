@@ -1,0 +1,17 @@
+﻿<viewdata model="SimpleFileServer.Modules.FileInfo" />
+<html>
+  <head>
+    <title>Nancy Self Host Demo</title>
+  </head>
+  <body>
+    <h1>Hello ${Model.FileName}!</h1>
+    <p>This is a Spark view rendered via the self hosting.</p>
+    <p>You uploaded: ${Model.FilePath}</p>
+    <p>
+      <form action="~/FileList/Upload" method="POST" enctype="multipart/form-data">
+        <input name="upload" type="file" size="40"/>
+        <input type="submit" value="Post!"/>
+      </form>
+    </p>
+  </body>
+</html>
