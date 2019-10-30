@@ -14,6 +14,12 @@ namespace SimpleFileServer
             LogHelper.InitLogPath();
             LogHelper.AddLog("Instance is starting.");
 
+            var list = HardwareHelper.GetCpuId();
+            list.ForEach(Console.WriteLine);
+
+            var disks = HardwareHelper.GetRemovableDisk();
+            disks.ForEach(Console.WriteLine);
+
             AppDomain.CurrentDomain.ProcessExit += (sender, eventArgs) =>
             {
                 _instanceMutex?.ReleaseMutex();
@@ -23,6 +29,8 @@ namespace SimpleFileServer
 
             CheckSingleInstance();
             AddThreadExceptionHandler();
+
+            GlobalConfig.Instance.Init();
 
             Run();
         }

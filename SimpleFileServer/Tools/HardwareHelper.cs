@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Management;
 
 namespace SimpleFileServer.Tools
 {
     internal static class HardwareHelper
     {
+        //获取移动磁盘列表
         public static List<string> GetRemovableDisk()
         {
             var removableDiskList = new List<string>();
@@ -38,7 +38,6 @@ namespace SimpleFileServer.Tools
 
                     foreach (var disk in diskPartition.GetRelated("Win32_LogicalDisk"))
                     {
-                        Console.WriteLine(disk.Properties["Name"].Value.ToString());
                         removableDiskList.Add(disk.Properties["Name"].Value.ToString());
                     }
                 }
@@ -47,6 +46,7 @@ namespace SimpleFileServer.Tools
             return removableDiskList;
         }
 
+        //获取CPU列表
         public static List<string> GetCpuId()
         {
             var cpuIdList = new List<string>();
@@ -55,7 +55,7 @@ namespace SimpleFileServer.Tools
             var disks = mc.GetInstances();
             foreach (var moItem in disks)
             {
-                var mo = (ManagementObject) moItem;
+                var mo = moItem as ManagementObject;
                 if (mo == null)
                 {
                     continue;
@@ -67,8 +67,7 @@ namespace SimpleFileServer.Tools
                 //{
                 //    Console.WriteLine(prop.Name + "\t" + prop.Value);
                 //}
-
-                Console.WriteLine(mo.Properties["ProcessorId"].Value.ToString());
+                
                 cpuIdList.Add(mo.Properties["ProcessorId"].Value.ToString());
             }
 

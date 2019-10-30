@@ -1,4 +1,4 @@
-﻿using System.Dynamic;
+﻿using System;
 using System.IO;
 
 namespace SimpleFileServer.Tools
@@ -9,7 +9,17 @@ namespace SimpleFileServer.Tools
 
         public void Init()
         {
-            //UploadDirectory = Path.Combine(pathProvider.GetRootPath(), "Content", "uploads");
+            var rootDir = Path.Combine(Environment.CurrentDirectory, "Content");
+            if (!Directory.Exists(rootDir))
+            {
+                Directory.CreateDirectory(rootDir);
+            }
+            
+            UploadDirectory = Path.Combine(rootDir, "uploads");
+            if (!Directory.Exists(UploadDirectory))
+            {
+                Directory.CreateDirectory(UploadDirectory);
+            }
         }
 
         #region 单例模式

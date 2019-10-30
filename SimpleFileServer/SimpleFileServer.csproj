@@ -60,19 +60,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Modules\FileInfo.cs" />
     <Compile Include="Modules\FileListModule.cs" />
     <Compile Include="Modules\HomeModule.cs" />
+    <Compile Include="Modules\UploadModule.cs" />
     <Compile Include="NancyServer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\Constants.cs" />
-    <Compile Include="Tools\DiskHelper.cs" />
+    <Compile Include="Tools\HardwareHelper.cs" />
     <Compile Include="Tools\GlobalConfig.cs" />
     <Compile Include="Tools\LogHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <Content Include="Views\Show.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
